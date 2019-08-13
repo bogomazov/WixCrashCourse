@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { Navigation } from "react-native-navigation";
+import * as postsActions from "../posts.actions";
 
 class ViewPost extends Component {
 
-  onPostDeletePressed = () => {
+  onPostDeletePressed = async () => {
     //In here we will request from the server to delete the post
     Navigation.pop(this.props.componentId);
-    setTimeout(() => {
-      alert("Post deleted");
-    }, 1000);
+    await postsActions.deletePost(this.props.post.id);
   }
 
   render() {

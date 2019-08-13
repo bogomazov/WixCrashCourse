@@ -1,11 +1,16 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import { Navigation } from "react-native-navigation";
 
+import { connect } from "remx";
+import { postsStore } from "../posts.store";
+import * as postsActions from "../posts.actions";
+
 class PostsList extends Component {
   static propTypes = {
-    componentId: PropTypes.string
+    componentId: PropTypes.string,
+    posts: PropTypes.array
   };
 
   static options() {
@@ -25,6 +30,10 @@ class PostsList extends Component {
     super(props);
 
     Navigation.events().bindComponent(this);
+  }
+
+  componentDidMount() {
+    postsActions.fetchPosts();
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -47,12 +56,13 @@ class PostsList extends Component {
     });
   }
 
-  pushViewPostScreen = () => {
+  pushViewPostScreen = post => {
     Navigation.push(this.props.componentId, {
       component: {
         name: "blog.ViewPost",
         passProps: {
-          somePropToPass: "Some props that we are passing"
+          somePropToPass: "Some props that we are passing",
+          post
         },
         options: {
           topBar: {
@@ -65,18 +75,33 @@ class PostsList extends Component {
     });
   };
 
+  renderItem = ({ item }) => (
+    <Text onPress={() => this.pushViewPostScreen(item)}>{item.title}</Text>
+  );
+
+  postKeyExtractor = item => `${item.id}-key`;
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text} onPress={this.pushViewPostScreen}>
-          PostsList Screen
-        </Text>
+        <Text style={styles.text}>PostsList Screen</Text>
+        <FlatList
+          data={this.props.posts}
+          keyExtractor={this.postKeyExtractor}
+          renderItem={this.renderItem}
+        />
       </View>
     );
   }
 }
 
-export default PostsList;
+function mapStateToProps() {
+  return {
+    posts: postsStore.getPosts()
+  };
+}
+
+export default connect(mapStateToProps)(PostsList);
 
 const styles = StyleSheet.create({
   container: {
