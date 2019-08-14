@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button } from "react-native-ui-lib";
+
 import { Navigation } from "react-native-navigation";
 import * as postsActions from "../posts.actions";
 
@@ -12,14 +13,25 @@ class ViewPost extends Component {
   }
 
   render() {
+    const { title, text } = this.props.post;
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>ViewPost Screen</Text>
-        <Text>{this.props.somePropToPass}</Text>
+      <View flex spread padding-24>
+        <View>
+          <Text text30 purple10>
+            {title}
+          </Text>
+          <Text text70 dark20 marginT-12>
+            {text}
+          </Text>
+        </View>
         <Button
-          title="Delete Post"
+          label="Delete Post"
+          text80
+          red20
+          bg-red70
+          fullWidth
           onPress={this.onPostDeletePressed}
-          color={"red"}
         />
       </View>
     );
@@ -27,17 +39,3 @@ class ViewPost extends Component {
 }
 
 export default ViewPost;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#D3EDFF"
-  },
-  text: {
-    fontSize: 28,
-    textAlign: "center",
-    margin: 10
-  }
-});

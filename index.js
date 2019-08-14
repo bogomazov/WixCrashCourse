@@ -1,6 +1,7 @@
 import { Navigation } from "react-native-navigation";
 import { registerScreens } from "./src/screens";
 import { registerLoggerForDebug } from "remx";
+import * as style from './src/style'
 
 registerLoggerForDebug(console.log);
 registerScreens();
