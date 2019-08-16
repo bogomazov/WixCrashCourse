@@ -20,7 +20,8 @@ class PostsList extends Component {
         rightButtons: [
           {
             id: "addPost",
-            text: "Add"
+            text: "Add",
+            testID: "add-post-btn"
           }
         ]
       }
@@ -82,6 +83,7 @@ class PostsList extends Component {
       activeOpacity={0.1}
       height={77.5}
       onPress={() => this.pushViewPostScreen(item)}
+      testID={`postItem-${item.id}`}
     >
       <ListItem.Part left>
         <Image source={{ uri: item.img }} style={styles.image} />
@@ -97,6 +99,7 @@ class PostsList extends Component {
             text70
             style={{ flex: 1, marginRight: 10 }}
             numberOfLines={1}
+            testID="post-title"
           >
             {item.title}
           </Text>
@@ -107,6 +110,7 @@ class PostsList extends Component {
             text90
             dark40
             numberOfLines={1}
+            testID="post-text"
           >
             {item.text}
           </Text>

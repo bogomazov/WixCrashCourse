@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { View, Text, TextField } from "react-native-ui-lib";
 import PropTypes from "prop-types";
 import { Navigation } from "react-native-navigation";
+
 import * as postsActions from "../posts.actions";
+import * as Presenter from "./AddPost.presenter";
 
 class AddPost extends Component {
   static propTypes = {
@@ -29,14 +31,15 @@ class AddPost extends Component {
           {
             id: "saveBtn",
             text: "Save",
-            enabled: false
+            enabled: false,
+            testID: "save-post-btn"
           }
         ],
         leftButtons: [
           {
             id: "cancelBtn",
-            text: "Cancel"
-            // icon: require("../../icons/x.icon.png")
+            text: "Cancel",
+            icon: require("../../icons/x.icon.png")
           }
         ]
       }
@@ -53,16 +56,9 @@ class AddPost extends Component {
 
   onChangeTitle = title => {
     this.setState({ title });
-    Navigation.mergeOptions(this.props.componentId, {
-      topBar: {
-        rightButtons: [
-          {
-            id: "saveBtn",
-            text: "Save",
-            enabled: !!title
-          }
-        ]
-      }
+    Presenter.onChangeTitle({
+      componentId: this.props.componentId,
+      title
     });
   };
 
@@ -71,12 +67,10 @@ class AddPost extends Component {
   };
 
   onSavePressed = () => {
-    Navigation.dismissModal(this.props.componentId);
-    const randomImageNumber = Math.floor(Math.random() * 500 + 1);
-    postsActions.addPost({
+    Presenter.onSavePressed({ 
+      componentId: this.props.componentId,
       title: this.state.title,
-      text: this.state.text,
-      img: `https://picsum.photos/200/200/?image=${randomImageNumber}`
+      text: this.state.text
     });
   };
 
@@ -92,6 +86,7 @@ class AddPost extends Component {
           floatingPlaceholder
           placeholder="Add a Catchy Title"
           onChangeText={this.onChangeTitle}
+          testID="add-title-input"
           floatOnFocus
         />
         <TextField

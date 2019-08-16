@@ -1,33 +1,22 @@
-import { Platform } from "react-native";
-
 import { postsStore } from "./posts.store";
+import * as ServerApi from "../api";
 
-const localhost = Platform.OS == "android" ? "10.0.2.2" : "localhost";
 export async function fetchPosts() {
-  console.log("fetchPosts");
-
-  const response = await fetch(`http://${localhost}:3000/posts`);
-  const posts = await response.json();
-  console.log(posts)
+  const posts = await ServerApi.fetchPosts();
   postsStore.setPosts(posts);
 }
 
 export async function addPost(post) {
-  const response = await fetch(`http://${localhost}:3000/posts`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(post)
-  });
-  const postToAdd = await response.json();
+  const postToAdd = await ServerApi.addPost(post);
   postsStore.addPost(postToAdd);
 }
 
+export async function updatePost(post) {
+  postsStore.updatePost(post);
+  await ServerApi.updatePost(post);
+}
+
 export async function deletePost(id) {
-  await fetch(`http://${localhost}:3000/posts/${id}`, {
-    method: "DELETE"
-  });
+  await ServerApi.deletePost(id);
   postsStore.deletePost(id);
 }
