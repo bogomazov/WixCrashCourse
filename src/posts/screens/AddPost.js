@@ -39,7 +39,7 @@ class AddPost extends Component {
           {
             id: "cancelBtn",
             text: "Cancel",
-            icon: require("../../icons/x.icon.png")
+            icon: require("../../icons/x.png")
           }
         ]
       }
