@@ -23,6 +23,13 @@ class PostsList extends Component {
             text: "Add",
             testID: "add-post-btn"
           }
+        ],
+        leftButtons: [
+          {
+            id: "goToToast",
+            text: "Toast",
+            icon: require("../../icons/x.png")
+          }
         ]
       }
     };
@@ -41,7 +48,23 @@ class PostsList extends Component {
   navigationButtonPressed({ buttonId }) {
     if (buttonId === "addPost") {
       this.showAddPostModal();
+    } else if (buttonId == "goToToast") {
+      this.goToToastScreen();
     }
+  }
+
+  goToToastScreen = () => {
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: "extra.Toast"
+            }
+          }
+        ]
+      }
+    });
   }
 
   showAddPostModal() {

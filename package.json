@@ -15,7 +15,8 @@
     "react-native": "0.59.10",
     "react-native-navigation": "^2.26.5",
     "react-native-ui-lib": "^3.35.0",
-    "remx": "^2.0.51"
+    "remx": "^2.0.51",
+    "react-native-native-toast-library-god-mode": "./NativeToastLibrary"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
